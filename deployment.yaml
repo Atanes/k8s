@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app: "goserver"
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       name: goserver
@@ -17,7 +17,15 @@ spec:
     spec:
       containers:
         - name: goserver
-          image: "aatanes/hello-go:v5.2"
+          image: "aatanes/hello-go:v5.3"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000 # Aqui devemos colocar a porta do container e não do service
+            periodSeconds: 5 # A cada 5 segundos ele vai fazer a verificação
+            failureThreshold: 3 # Números de falhas que devem disparar o aviso
+            timeoutSeconds: 1 # Tempo de espera, em segundos, aceitável para recebimento das respostas
+            successThreshold: 1 # Numero de ok's para garantir que a aplicação está ok
           envFrom:
             - configMapRef:
                 name: goserver-env
