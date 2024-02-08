@@ -6,7 +6,7 @@ Para "entrar" no POD:
 kubectl exec -it pod-name -- bash
 
 Para ver os logs do POD:  
-kubectl get logs pod-name
+kubectl logs pod-name
 
 Fazer redirecionamento de portas:  
 kubectl port-forward svc/goserver-service 8080:80
