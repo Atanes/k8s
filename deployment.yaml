@@ -18,15 +18,23 @@ spec:
       containers:
         - name: goserver
           image: "aatanes/hello-go:v5.4"
-          readinessProbe: # Verifica se a aplicação está de pé
+          readinessProbe: # Verifica se a aplicação pronta para receber trafego de informações
             httpGet:
               path: /healthz
-              port: 8000 # Aqui devemos colocar a porta do container e não do service
-            periodSeconds: 3 # A cada 3 segundos ele vai fazer a verificação
-            failureThreshold: 1 # Números de falhas que devem disparar o aviso
-            initialDelaySeconds: 10 # Tempo de espera antes de iniciar a verificação
-                                    # utilizado quando você sabe que a sua aplicação demora
-                                    # um certo tempo para subir e ficar pronta
+              port: 8000 
+            periodSeconds: 3 
+            failureThreshold: 1 
+            initialDelaySeconds: 10 # Aguarda 10 segundos antes de começar a verificar se está de pé
+
+          livenessProbe: # Verifica periodicamente se a aplicação está de pé
+            httpGet:
+              path: /healthz
+              port: 8000 
+            periodSeconds: 5 
+            failureThreshold: 3 # Se 3 erros seguidos aconteceram a aplicação é reiniciada
+            timeoutSeconds: 1 
+            successThreshold: 1
+            
           envFrom:
             - configMapRef:
                 name: goserver-env
