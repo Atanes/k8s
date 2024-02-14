@@ -18,6 +18,13 @@ spec:
       containers:
         - name: goserver
           image: "aatanes/hello-go:v5.4"
+          resources:
+            requests: # Setar o minimo para a aplicação rodar
+              cpu: 100m # vCPU -> 1000m (milicores) por padrão, se quiser usar metade 500m.
+              memory: 20Mi # 20 megas
+            limits:
+              cpu: 500m # Máximo de recursos que a aplicação pode utilizar
+              memory: 25Mi # Máximo de memória que a aplicação pode utilizar
           startupProbe: # Verifica se a aplicação subiu e está no ar, depois libera para
                         # verificação periodica do readiness e liveness
             httpGet:
