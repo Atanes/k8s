@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-express
+spec:
+  selector:
+    matchLabels:
+      app: myapp-express
+  template:
+    metadata:
+      labels:
+        app: myapp-express
+    spec:
+      serviceAccount: server
+      containers:
+      - name: myapp-express
+        image: aatanes/hello-express
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
