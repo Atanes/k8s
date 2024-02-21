@@ -21,13 +21,13 @@ spec:
             value: root
         ports:
         - containerPort: 3306
-          name: web
+          name: mysql
         volumeMounts:
-        - name: www
-          mountPath: /usr/share/nginx/html
+        - name: mysql-volume
+          mountPath: /var/lib/mysql
   volumeClaimTemplates:
   - metadata:
-      name: www
+      name: mysql-volume
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
